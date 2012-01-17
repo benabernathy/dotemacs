@@ -1,0 +1,10 @@
+(defun jbossmon ()
+  (interactive)
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (setq initial-frame-alist '((top . 0) (left . 0) (width . 200) (height . 57)))
+  (setq default-frame-alist '((top . 0) (left . 0) (width . 200) (height . 57)))
+  (setq special-display-frame-alist '((top . 0) (left . 0) (width . 200) (height . 57)))
+  (switch-to-buffer-other-frame (buffer-name))
+
+)
