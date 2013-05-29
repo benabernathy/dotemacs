@@ -95,7 +95,7 @@
 (eval-after-load "color-theme"
   '(progn
      (color-theme-initialize)
-     (color-theme-charcoal-black))
+     (color-theme-gruber-darker))
   )
 ;; Select by M-x color-theme TAB RET
 ;; Or by M-x color-theme-select
