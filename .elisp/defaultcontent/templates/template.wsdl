@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="SampleService"
+             targetNamespace="http://sampleservice"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12">
+  <types>
+    <xsd:schema>
+      <xsd:import> namespace="http://sampleservice" schemaLocation="sampleschema.xsd"/>
+    </xsd:schema>
+  </types>
+
+  <message name="SampleRequest">
+    <part name="request" element="sd:Request"/>
+  </message>
+
+  <message name="SampleResponse">
+    <part name="response" element="sd:Response"/>
+  </message>
+
+  <portType name="SampleServicePortType">
+    <operation name="sample">
+      <input message="tns:SampleRequest"/>
+      <output message="tns:SampleResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="SampleServicePortBinding" type="tns:SamplePortType
+
+</definitions>
