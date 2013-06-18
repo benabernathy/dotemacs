@@ -3,7 +3,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; ben.abernathy's .emacs                                                       ;
 ;                                                                              ;
-; A refactoring of my .emacs file                                              ;
+; My living, breathing .emacs                                                  ;
 ; Perfection is an elusive, mythical creature that I have yet to catch.        ;
 ;                                                                              ;
 ; A word on formatting. Each section has a short description of what kind of   ;
@@ -32,10 +32,14 @@
 ;;;;;;;;;;;;;;
 ; Change Log ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Mon, Jun 17 2013  16:36                                                      ;
-; Major clean up and implementation of some new fcns. Start of change log.     ;
+;                                                                              ;
+; Mon, Jun 17 2013  20:46                                                      ;
+; Added markdown-mode, migrated fuctions to myfuncs.el                         ;
 ;                                                                              ;
 ; ---------------------------------------------------------------------------- ;
+;                                                                              ;
+; Mon, Jun 17 2013  16:36                                                      ;
+; Major clean up and implementation of some new fcns. Start of change log.     ;
 ;                                                                              ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -170,7 +174,8 @@
 (ac-config-default)
 
 
-(setq load-path (cons "~/.elips/org-7.8.03/lisp" load-path))
+; Org mode!!!
+(setq load-path (cons "~/.elisp/org-7.8.03/lisp" load-path))
 (require 'org-install)
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
@@ -178,105 +183,12 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 
-
-;;;;;;;;;;;;;;;;;;;;;;
-; Personal Functions ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Functions that I wrote myself to solve some everyday problems. ;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-; This function will insert a DTG at the point. Taken from a blog.
-; Example: Mon, 17 Jun 96  12:52
-(defun insert-timeofday ()
-  "function to insert time of day at point.\n format: DayOfWeek, Month Date Year   24hrTime"
-  (interactive)
-  (let (localstring mytime)
-    (setq localstring (current-time-string))
-    (setq mytime (concat (substring localstring 0 3)  ;day-of-week
-                         ", " 
-                         (substring localstring 4 7)  ;month 
-                         " "
-                         (substring localstring 8 10) ;day number
-                         " "
-                         (substring localstring 20 24 ) ;4-digit year
-                         "  "
-                         (substring localstring 11 16 ) ;24-hr time
-                         "\n"
-                         ))
-    (insert mytime))
-) 
-
-
-; Re-indents an entire buffer!
-(defun indent-buffer () 
-  "re-indents the entire buffer!"
-  (interactive)
-  (indent-region (point-min) (point-max)))
-
-
-; The following functions are in development and may or may not work
-
-;(defun c-block-comment (begin end)
-;  "Create a c-style block comment around a region"
-;  (interactive "*r")
-;  (insert begin)
-;  (insert end))
-
-(defun c-line-comment ()
-  "Create a c-style line comment at the current line"
-  (interactive)
-  (beginning-of-line)
-  (insert "// "))
-
-
-; A shortcut for setting the color to a bbs-like color.
-(defun color-bbsguru () 
-  "When you want to relive yesterday. Yah buddy!"
-  (interactive)
-  (color-theme-initialize)
-  (color-theme-renegade))
-
-; A color that is more helpful for programming.
-(defun color-programmer ()
-  "When you need to easily read code."
-  (interactive)
-  (color-theme-initialize)
-  (color-theme-eclipse))
-
-; A shortcut for switching back to the default color.
-(defun color-default () 
-  "Changes the color back to what is normally used."
-  (interactive)
-  (color-theme-initialize)
-  (color-theme-charcoal-black))
-
-; Inserts a JDK 1.7 compatible public main entry method.
-(defun java-psvm () 
-  "Inserts a bare java main method."
-  (interactive)
-  (insert "public static void main(String...args) {\n\n\n}")
-  (babernat-indent-buffer)) 
-
-; Inserts a bare toString method.
-(defun java-tostring () 
-  "Inserts a bare java toString method."
-  (interactive)
-  (insert "@Override public String toString() {\nreturn \"\";\n}")
-  (babernat-indent-buffer))
-
-; Inserts a bare Java equals method.
-(defun java-equals ()
-  "Inserts a bare Java equals method."
-  (interactive)
-  (insert "@Override\n public boolean equals(Object o) {\nreturn false;\n}")
-  (babernat-indent-buffer))
-
-; Returns a new junk buffer.
-(defun get-junk-buffer ()
-  "Creates a new junk buffer as a scratch pad."
-  (interactive)
-  (switch-to-buffer
-   (generate-new-buffer "*junk*")))
+; Mark it down, way down.
+(require 'markdown-mode)
+;autoload 'markdown-mode "markdown-mode"
+;   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ; Saves the previous layout
 (desktop-save-mode 1)
@@ -289,7 +201,12 @@
           (get-buffer-create "*junk*"))))
 
 ; (require 'server)
- ; (defun server-ensure-safe-dir (dir) "Noop" t) ; Suppress error "directory
+; (defun server-ensure-safe-dir (dir) "Noop" t)  ; Suppress error "directory
                                                  ; ~/.emacs.d/server is unsafe"
                                                  ; on windows.
 ;(server-start)
+
+
+; Load personal functions
+(load "~/.elisp/myfuncs.el")
+
