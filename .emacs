@@ -62,9 +62,8 @@
 (setq visible-bell 1)
 
 ; Set the default directory (this may need to be changed based b/c of os)
-;(setq default-directory "/Users/ben.abernathy")
-;(setq default-directory (getenv "HOME"))
-(setq default-directory (if (getenv "HOME") (getenv "HOME") "/Users/ben.abernathy"))
+(setq default-directory 
+      (if (getenv "HOME") (getenv "HOME") "/Users/ben.abernathy"))
 
 ; Highlights the current line
 (global-hl-line-mode 1)
