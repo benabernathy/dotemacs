@@ -136,4 +136,30 @@
    (generate-new-buffer "*junk*")))
 
 
+(defun insert-system-name()
+  "Inserts the system's name"
+  (interactive)
+  (insert (format "%s" system-name)))
+
+(defun insert-system-type() 
+  "Inserts the system's type"
+  (interactive)
+  (insert (format "%s" system-type)))
+
+(defun system-type-is-darwin()
+  "Returns true if the system is darwin-based (Mac OS X)"
+  (interactive)
+  (string-equal system-type "darwin"))
+
+(defun system-type-is-gnu()
+  "Returns true if the system is gnu/linux-based"
+  (interactive)
+  (string-equal system-type "gnu/linux"))
+
+(defun system-type-is-winnt()
+  "Returns true if the system is Windows-based"
+  (interactive)
+  (string-equal system-type "windows-nt"))
+
+
 ;;; end of myfuncs.el
