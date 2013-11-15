@@ -33,6 +33,11 @@
 ; Change Log ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;                                                                              ;
+; Fri, Nov 15 2013  13:11                                                      ;
+; Cleanup, added nav and enabled semantic.                                     ;
+;                                                                              ;
+; ---------------------------------------------------------------------------- ;
+;                                                                              ;
 ; Mon, Jun 17 2013  20:46                                                      ;
 ; Added markdown-mode, migrated fuctions to myfuncs.el                         ;
 ;                                                                              ;
@@ -50,6 +55,9 @@
 ; This section contains basic settings controlling emacs. They typically do    ;
 ; not have any dependencies on 3rd party lisp functions, etc.                  ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; Load personal functions
+(load "~/.elisp/myfuncs.el")
 
 ; Set text-mode as the default major mode
 (setq-default major-mode 'text-mode)
@@ -103,18 +111,15 @@
 (show-paren-mode 1)
 
 ; Backup file handling
-(setq make-backup-files nil) ; do not create back up files
+(setq make-backup-files nil) ; do not create backup files
 
 ; Let your yes be yes and your no be no
 (fset 'yes-or-no-p 'y-or-n-p)
 (define-key query-replace-map [return] 'act)
 (define-key query-replace-map [?\C-m] 'act)
 
-; Don't word wrap
-(toggle-truncate-lines t)
-
 ; This handles loaded buffers with the same name
-; The revers means that the name is first followed by the directory.
+; The reverse means that the name is first followed by the directory.
 ; For example, tmp/Mod.java and temp/Mod.java would be presented as:
 ; Mod.java\tmp and Mod.java\temp. This is nice because it doesn't
 ; mess with the buffer switching autocomplete.
@@ -174,7 +179,6 @@
 (add-to-list 'ac-dictionary-directories "~/.elisp/ac-dict")
 (ac-config-default)
 
-
 ; Org mode!!!
 (setq load-path (cons "~/.elisp/org-7.8.03/lisp" load-path))
 (require 'org-install)
@@ -201,13 +205,28 @@
           (switch-to-buffer 
           (get-buffer-create "*junk*"))))
 
-; (require 'server)
-; (defun server-ensure-safe-dir (dir) "Noop" t)  ; Suppress error "directory
-                                                 ; ~/.emacs.d/server is unsafe"
-                                                 ; on windows.
-;(server-start)
+; Semantic setup for IDE-like behavior
+(add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
+(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
+;(add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
+(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+ 
+(semantic-mode 1)
 
+(require 'semantic/analyze)
+(provide 'semantic-analyze)
+(provide 'semantic-ctxt)
+(provide 'semanticdb)
+(provide 'semanticdb-find)
+(provide 'semanticdb-mode)
+(provide 'semantic-load)
 
-; Load personal functions
-(load "~/.elisp/myfuncs.el")
-
+; A simple directory/source navigation tool 
+(add-to-list 'load-path "~/.elisp/emacs-nav-49")
+(require 'nav)
+(nav-disable-overeager-window-splitting)
+;; Optional: set up a quick key to toggle nav
+(global-set-key [f8] 'nav-toggle)
