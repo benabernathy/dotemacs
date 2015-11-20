@@ -118,6 +118,9 @@
 (define-key query-replace-map [return] 'act)
 (define-key query-replace-map [?\C-m] 'act)
 
+; Don't word wrap
+;(toggle-truncate-lines t)
+
 ; This handles loaded buffers with the same name
 ; The reverse means that the name is first followed by the directory.
 ; For example, tmp/Mod.java and temp/Mod.java would be presented as:
@@ -137,6 +140,11 @@
 
 ;; Enable SVN support
 (require 'psvn)
+
+; Add Git support
+(add-to-list 'load-path "~/.elisp/git")
+(require 'git)
+(require 'git-blame)
 
 ;; For themes, I use the color-theme package.
 ;; http://www.nongnu.org/color-theme
