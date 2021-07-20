@@ -14,7 +14,7 @@
 ;;;;;;;;;;;
 ; License ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;   Copyright 2013 Benjamin Abernathy                                          ;
+;   Copyright 2021 Benjamin Abernathy                                          ;
 ;                                                                              ;
 ;   Licensed under the Apache License, Version 2.0 (the "License");            ;
 ;   you may not use this file except in compliance with the License.           ;
@@ -32,6 +32,13 @@
 ;;;;;;;;;;;;;;
 ; Change Log ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;                                                                              ;
+; Mon, Jul 19 2021 21:25                                                       ;
+; Long awaited update to support Emacs 26+                                     ;
+; Removed table.el, color-theme, svn, and git. Most were replaced              ;
+; with either built-ins or equivalent features. Markdown is broken.            ;
+;                                                                              ;
+; ---------------------------------------------------------------------------- ;
 ;                                                                              ;
 ; Fri, Nov 15 2013  13:11                                                      ;
 ; Cleanup, added nav and enabled semantic.                                     ;
@@ -119,7 +126,7 @@
 (define-key query-replace-map [?\C-m] 'act)
 
 ; Don't word wrap
-;(toggle-truncate-lines t)
+(toggle-truncate-lines t)
 
 ; This handles loaded buffers with the same name
 ; The reverse means that the name is first followed by the directory.
@@ -138,37 +145,17 @@
 ; Add the script directory
 (add-to-list 'load-path "~/.elisp")
 
-;; Enable SVN support
-(require 'psvn)
-
-; Add Git support
-(add-to-list 'load-path "~/.elisp/git")
-(require 'git)
-(require 'git-blame)
-
-;; For themes, I use the color-theme package.
-;; http://www.nongnu.org/color-theme
-;; http://www.emacswiki.org/emacs/ColorTheme
-(add-to-list 'load-path "~/.elisp/color-theme-6.6.0")
-(require 'color-theme)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-gruber-darker))
-  )
-;; Select by M-x color-theme TAB RET
-;; Or by M-x color-theme-select
+; Set color theme
+(add-to-list 'custom-theme-load-path
+             (file-name-as-directory "~/.elisp/color-themes"))
+(load-theme 'calm-forest t t)
+(enable-theme 'calm-forest)
 
 ; Loads the linum code (displays line numbers in the gutter)
 ; You must load this after you initialize the theme else the gutter numbers 
 ; will be funky colors.
 (require 'linum)
 (global-linum-mode 1)
-
-; A simple little table editing mode that gives you a simple spreadsheet style 
-; of editing. Tables can also be saved to HTML.
-;(require 'table)
-;(add-hook 'text-mode-hook 'table-recognize)
 
 ; A cool template capability
 (load "~/.elisp/defaultcontent/defaultcontent.el")
@@ -197,11 +184,11 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 
 ; Mark it down, way down.
-(require 'markdown-mode)
+;(require 'markdown-mode)
 ;autoload 'markdown-mode "markdown-mode"
 ;   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+;(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+;(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ; Saves the previous layout
 (desktop-save-mode 1)
@@ -218,7 +205,7 @@
 (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
-;(add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode)
+(add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
 (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
  
